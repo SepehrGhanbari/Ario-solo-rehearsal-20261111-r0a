@@ -1,26 +1,17 @@
-name: Synthetic neutral publisher
+name: Disposable context positive control
 on:
   pull_request:
 permissions:
   contents: read
-  checks: write
 jobs:
-  synthetic-neutral-publisher:
+  registered-control:
+    name: solo-required-context
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Publish deliberately neutral required result
-        env:
-          GH_TOKEN: ${{ github.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          API_URL: ${{ github.api_url }}
-          REPO: ${{ github.repository }}
-        run: |
-          python3 - <<'PY'
-          import os,json,urllib.request
-          payload={"name":"solo-required-context","head_sha":os.environ["HEAD_SHA"],"status":"completed","conclusion":"neutral","output":{"title":"Synthetic neutral negative control","summary":"No test suite executed. Deliberately neutral."}}
-          req=urllib.request.Request(os.environ["API_URL"]+"/repos/"+os.environ["REPO"]+"/check-runs",data=json.dumps(payload).encode(),headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json","Content-Type":"application/json"},method="POST")
-          with urllib.request.urlopen(req) as response:
-              result=json.load(response)
-          print(json.dumps({key:result.get(key) for key in ("id","name","head_sha","conclusion","app")}))
-          PY
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Execute the disposable fixture
+        run: python3 -B -m unittest discover -s tests -v
+# This is a native-context selection fixture, NOT a trusted publisher design.
