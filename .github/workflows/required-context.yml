@@ -1,6 +1,6 @@
 name: Disposable context positive control
 on:
-  workflow_dispatch:
+  pull_request:
 permissions:
   contents: read
 jobs:
