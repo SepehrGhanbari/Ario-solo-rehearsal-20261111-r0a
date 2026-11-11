@@ -1,14 +1,13 @@
-name: Disposable forged context negative control
+name: Disposable skipped-context negative control
 on:
   pull_request:
 permissions:
   contents: read
 jobs:
-  counterfeit:
+  skipped:
     name: solo-required-context
+    if: ${{ false }}
     runs-on: ubuntu-latest
-    timeout-minutes: 2
     steps:
-      - name: Deliberately omit the evaluator
-        run: python3 -c "print('CANDIDATE_SUPPLIED_FAKE_RESULT; 1133 passed in 0.01s')"
-# Intentional counterfeit test fixture; never deploy in the Ario repository.
+      - run: echo This job must not execute
+# Observe the real native result later; no live enforcement has been tested here.
