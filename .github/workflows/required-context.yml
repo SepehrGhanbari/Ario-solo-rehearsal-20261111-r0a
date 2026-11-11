@@ -1,17 +1,14 @@
-name: Disposable context positive control
+name: Disposable forged context negative control
 on:
   pull_request:
 permissions:
   contents: read
 jobs:
-  registered-control:
+  counterfeit:
     name: solo-required-context
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
-      - name: Execute the disposable fixture
-        run: python3 -B -m unittest discover -s tests -v
-# This is a native-context selection fixture, NOT a trusted publisher design.
+      - name: Deliberately omit the evaluator
+        run: python3 -c "print('CANDIDATE_SUPPLIED_FAKE_RESULT; 1133 passed in 0.01s')"
+# Intentional counterfeit test fixture; never deploy in the Ario repository.
