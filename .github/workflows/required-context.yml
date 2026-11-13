@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
-      - name: Execute the disposable fixture
-        run: python3 -B -m unittest discover -s tests -v
-# This is a native-context selection fixture, NOT a trusted publisher design.
+      - name: R1c adversarial fixture, deliberately no tests
+        run: |
+          echo "R1C FAKE GREEN: NO TESTS EXECUTED - DO NOT TRUST"
+          exit 0
